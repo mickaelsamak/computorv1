@@ -57,6 +57,5 @@ class Parsing:
 						self.variable["X^" + str(j)] =  self.variable["X^" + str(j)] + float(self.right[i - 2])
 					else:
 						self.invalid_syntax = True
-
 		#self.__print_variable()
 		self.__convert_to_int()
