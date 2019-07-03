@@ -1,6 +1,5 @@
 import sys
 from pprint import pprint
-from tools import *
 
 class Parsing:
 	def __init__(self):
@@ -59,5 +58,5 @@ class Parsing:
 					else:
 						self.invalid_syntax = True
 
-		self.__print_variable()
+		#self.__print_variable()
 		self.__convert_to_int()

@@ -24,3 +24,6 @@ def print_polynomial_degree(parsing_obj):
 	for key in parsing_obj.variable:
 		list.append(key[2])
 	print ("Polynomial degree: " + max(list))
+	if max(list) > 2:
+		print ("The polynomial degree is stricly greater than 2, I can't solve.")
+		exit(0)
