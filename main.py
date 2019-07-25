@@ -115,12 +115,16 @@ def solve(input):
 			solution2 = (-b + sqrt(delta)) / (2 * a)
 			print(solution1)
 			print(solution2)
-			print ("Solution 1 : " + str(-b) + " - √" + str(delta) + " / 2 * " + str(a))
-			print ("Solution 2 : " + str(-b) + " + √" + str(delta) + " / 2 * " + str(a))
+			print ("Solution 1 : " + str(-b) + " - √" + str(delta) + " /" + str(2 * a))
+			print ("Solution 2 : " + str(-b) + " + √" + str(delta) + " /" + str(2 * a))
 		if delta == 0:
 			print("Discriminant == 0, the solution is:")
 			solution1 = -b / (2 * a)
 			print(solution1)
+			print ("Fraction : " + str(-b) +" / " + str(2 * a))
+		if delta < 0:
+			print("Discriminant is strictly negative, the two complex solutions are:")
+
 
 def get_user_input():
 	parser = argparse.ArgumentParser()
@@ -129,7 +133,6 @@ def get_user_input():
 	return (args.equation)
 
 def main():
-
 	input = get_user_input()
 	solve(input)
 
