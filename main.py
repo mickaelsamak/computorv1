@@ -20,6 +20,36 @@ def check_equality(input):
 def split_equality(input):
 	input = re.sub(r"\s", "", input)
 	left, right = input.split("=")
+	left = re.sub(
+		r"(?P<exp0>(?:^|[+-])(?:\d+\.\d+|\d+)(?!\*|\d+|\.))",
+		r"\g<exp0>*X^0",
+		left
+	)
+	left = re.sub(
+		r"(?P<exp1>X(?!\^))",
+		r"\g<exp1>^1",
+		left
+	)
+	left = re.sub(
+		r"(^|[+-])(X\^\d+)",
+		r"\g<1>1*\g<2>",
+		left
+	)
+	right = re.sub(
+		r"(?P<exp0>(?:^|[+-])(?:\d+\.\d+|\d+)(?!\*|\d+|\.))",
+		r"\g<exp0>*X^0",
+		right
+	)
+	right = re.sub(
+			r"(?P<exp1>X(?!\^))",
+		r"\g<exp1>^1",
+		right
+	)
+	right = re.sub(
+		r"(^|[+-])(X\^\d+)",
+		r"\g<1>1*\g<2>",
+		right
+	)
 	if not left.strip() or not right.strip():
 		print("Error: One side of your equation is empty.")
 		exit()
@@ -32,9 +62,12 @@ def parse(input):
 	left, right = split_equality(input)
 	reg = "(?P<coef>[-+]?\d+\.\d+|[-+]?\d+)\*X\^(?P<exposant>\d+)"
 	for match in re.finditer(reg, left):
-		terms[int(match.group('exposant'))] = float(match.group('coef'))
-		curr_len += len(match.group(0))
+		if int(match.group('exposant')) in terms:
+			terms[int(match.group('exposant'))] = terms[int(match.group('exposant'))] + float(match.group('coef'))
+		else:
+			terms[int(match.group('exposant'))] = float(match.group('coef'))
 		terms[int(match.group('exposant'))] = round(terms[int(match.group('exposant'))], 6)
+		curr_len += len(match.group(0))
 	for match in re.finditer(reg, right):
 		if int(match.group('exposant')) in terms:
 			terms[int(match.group('exposant'))] = terms[int(match.group('exposant'))] - float(match.group('coef'))
@@ -136,7 +169,7 @@ def play(terms, degree):
 	if degree == 1:
 		solution = reduce(-c/b)
 		print("Solution is :")
-		print(solution)
+		print(str(solution) + " or " + str(-c) + "/" + str(b))
 	if degree == 2:
 		delta = reduce(b * b - (4 * a * c))
 		print ("Calculate of Discriminant:")
@@ -153,8 +186,10 @@ def play(terms, degree):
 			print(str(solution1) + " or " + str(-b) +" / " + str(2 * a))
 		if delta < 0:
 			print("Discriminant is strictly negative, the two complex solutions are:")
-			print(str(-b) + " - i√" + str(-delta) + " /" + str(2 * a))
-			print(str(-b) + " + i√" + str(-delta) + " /" + str(2 * a))
+			solution1=str(reduce(-b/2*a)) + "-" + str(reduce(sqrt(-delta)/2*a)) + "i"
+			solution2=str(reduce(-b/2*a)) + "+" + str(reduce(sqrt(-delta)/2*a)) + "i"
+			print(solution1 + " or " + str(-b) + " - i√" + str(-delta) + " /" + str(2 * a))
+			print(solution2 + " or " + str(-b) + " + i√" + str(-delta) + " /" + str(	2 * a))
 	plot_bonus(a, b ,c)
 	exit()
 
