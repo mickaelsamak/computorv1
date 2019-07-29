@@ -2,7 +2,15 @@ import sys
 import argparse
 from pprint import pprint
 import re
-from tools import *
+#Bonus Plot
+import numpy as np
+import matplotlib.pyplot as plt
+
+def sqrt(number, number_iters = 500):
+	a = float(number)
+	for i in range(number_iters):
+		number = 0.5 * (number + a / number)
+	return number
 
 def check_equality(input):
 	if input.count("=") != 1:
@@ -112,7 +120,6 @@ def play(terms, degree):
 		solution = reduce(-c/b)
 		print("Solution is :")
 		print(solution)
-		exit()
 	if degree == 2:
 		delta = reduce(b * b - (4 * a * c))
 		print ("Calculate of Discriminant:")
@@ -131,7 +138,23 @@ def play(terms, degree):
 			print("Discriminant is strictly negative, the two complex solutions are:")
 			print(str(-b) + " - i√" + str(-delta) + " /" + str(2 * a))
 			print(str(-b) + " + i√" + str(-delta) + " /" + str(2 * a))
-		exit()
+
+	#Bonus Plot
+	x = np.linspace(0, 10, 256, endpoint = True)
+	y = (a * (x * x)) + (b * x) + c
+
+	plt.plot(x, y)
+
+	axes = plt.gca()
+	axes.set_xlim([x.min(), x.max()])
+	axes.set_ylim([y.min(), y.max()])
+
+	plt.xlabel('x')
+	plt.ylabel('y')
+	plt.title('Polynomial Curve')
+
+	plt.show()
+	exit()
 
 def solve(input):
 	check_equality(input)
