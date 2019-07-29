@@ -26,11 +26,13 @@ def parse(input):
 	for match in re.finditer(reg, left):
 		terms[int(match.group('exposant'))] = float(match.group('coef'))
 		curr_len += len(match.group(0))
+		terms[int(match.group('exposant'))] = round(terms[int(match.group('exposant'))], 6)
 	for match in re.finditer(reg, right):
 		if int(match.group('exposant')) in terms:
 			terms[int(match.group('exposant'))] = terms[int(match.group('exposant'))] - float(match.group('coef'))
 		else:
 			terms[int(match.group('exposant'))] = -float(match.group('coef'))
+		terms[int(match.group('exposant'))] = round(terms[int(match.group('exposant'))], 6)
 		curr_len += len(match.group(0))
 	if curr_len != (len(left) + len(right)):
 		print("Error: Invalid Syntax.")
@@ -97,6 +99,40 @@ def check_empty_terms(terms):
 		terms[2] = 0
 	return (terms)
 
+def reduce(x):
+	x = float(x)
+	x = round(x, 6)
+	if x.is_integer():
+		x = int(x)
+	return (x)
+
+def play(terms, degree):
+	c,b,a = terms[0], terms[1], terms[2]
+	if degree == 1:
+		solution = reduce(-c/b)
+		print("Solution is :")
+		print(solution)
+		exit()
+	if degree == 2:
+		delta = reduce(b * b - (4 * a * c))
+		print ("Calculate of Discriminant:")
+		print ("Δ = " + str(delta))
+		if delta > 0:
+			print ("Discriminant is strictly positive, the two solutions are:")
+			solution1 = reduce((-b - sqrt(delta)) / (2 * a))
+			solution2 = reduce((-b + sqrt(delta)) / (2 * a))
+			print(str(solution1) + " or " + str(-b) + " - √" + str(delta) + " /" + str(2 * a))
+			print(str(solution2) + " or " + str(-b) + " + √" + str(delta) + " /" + str(2 * a))
+		if delta == 0:
+			print("Discriminant == 0, the solution is:")
+			solution1 = reduce(-b / (2 * a))
+			print(str(solution1) + " or " + str(-b) +" / " + str(2 * a))
+		if delta < 0:
+			print("Discriminant is strictly negative, the two complex solutions are:")
+			print(str(-b) + " - i√" + str(-delta) + " /" + str(2 * a))
+			print(str(-b) + " + i√" + str(-delta) + " /" + str(2 * a))
+		exit()
+
 def solve(input):
 	check_equality(input)
 	terms = parse(input)
@@ -104,27 +140,7 @@ def solve(input):
 	degree = print_polynomial_degree(terms)
 	check_invalid(terms)
 	terms = check_empty_terms(terms)
-	if degree == 2:
-		c,b,a = terms[0], terms[1], terms[2]
-		delta = b * b - (4 * a * c)
-		print ("Calculate of Discriminant:")
-		print ("Δ = " + str(delta))
-		if delta > 0:
-			print ("Discriminant is strictly positive, the two solutions are:")
-			solution1 = (-b - sqrt(delta)) / (2 * a)
-			solution2 = (-b + sqrt(delta)) / (2 * a)
-			print(solution1)
-			print(solution2)
-			print ("Solution 1 : " + str(-b) + " - √" + str(delta) + " /" + str(2 * a))
-			print ("Solution 2 : " + str(-b) + " + √" + str(delta) + " /" + str(2 * a))
-		if delta == 0:
-			print("Discriminant == 0, the solution is:")
-			solution1 = -b / (2 * a)
-			print(solution1)
-			print ("Fraction : " + str(-b) +" / " + str(2 * a))
-		if delta < 0:
-			print("Discriminant is strictly negative, the two complex solutions are:")
-
+	play(terms, degree)
 
 def get_user_input():
 	parser = argparse.ArgumentParser()
