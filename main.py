@@ -187,7 +187,7 @@ def play(terms, degree):
 		if delta < 0:
 			print("Discriminant is strictly negative, the two complex solutions are:")
 			solution1 = str(reduce(-b/2*a)) + "-" + str(reduce(sqrt(-delta)/2*a)) + "i"
-			solution2 = tr(reduce(-b/2*a)) + "+" + str(reduce(sqrt(-delta)/2*a)) + "i"
+			solution2 = str(reduce(-b/2*a)) + "+" + str(reduce(sqrt(-delta)/2*a)) + "i"
 			print(solution1 + " or " + str(-b) + " - i√" + str(-delta) + " /" + str(2 * a))
 			print(solution2 + " or " + str(-b) + " + i√" + str(-delta) + " /" + str(2 * a))
 	plot_bonus(a, b ,c)
