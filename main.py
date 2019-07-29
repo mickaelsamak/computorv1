@@ -114,6 +114,23 @@ def reduce(x):
 		x = int(x)
 	return (x)
 
+def plot_bonus(a, b, c):
+	#Bonus Plot
+	x = np.linspace(-50, 50, 256, endpoint = True)
+	y = (a * (x * x)) + (b * x) + c
+
+	plt.plot(x, y)
+
+	axes = plt.gca()
+	axes.set_xlim([x.min(), x.max()])
+	axes.set_ylim([y.min(), y.max()])
+
+	plt.xlabel('x')
+	plt.ylabel('y')
+	plt.title('Polynomial Curve')
+
+	plt.show()
+
 def play(terms, degree):
 	c,b,a = terms[0], terms[1], terms[2]
 	if degree == 1:
@@ -138,22 +155,7 @@ def play(terms, degree):
 			print("Discriminant is strictly negative, the two complex solutions are:")
 			print(str(-b) + " - i√" + str(-delta) + " /" + str(2 * a))
 			print(str(-b) + " + i√" + str(-delta) + " /" + str(2 * a))
-
-	#Bonus Plot
-	x = np.linspace(0, 10, 256, endpoint = True)
-	y = (a * (x * x)) + (b * x) + c
-
-	plt.plot(x, y)
-
-	axes = plt.gca()
-	axes.set_xlim([x.min(), x.max()])
-	axes.set_ylim([y.min(), y.max()])
-
-	plt.xlabel('x')
-	plt.ylabel('y')
-	plt.title('Polynomial Curve')
-
-	plt.show()
+	plot_bonus(a, b ,c)
 	exit()
 
 def solve(input):
