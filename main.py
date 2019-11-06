@@ -214,3 +214,9 @@ def main():
 
 if __name__== "__main__":
   main()
+
+# Bonus :
+# - natural form inputs: a * X^n, a * X, X^n, a, X
+# - formatting error handling: wrong format, double sign
+# - solid parser: power can be parsed no matter the order they are provided
+# - plot 
